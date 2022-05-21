@@ -1,113 +1,121 @@
 <%@ page import="com.hellot2010aagain.product.entity.Product" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  Product product = (Product) request.getAttribute("product");
+  int action = (int) request.getAttribute("action");
+  String url = "/admin/products/create";
+  if(action == 2){
+    url = "/admin/products/edit";
+  }
+%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%
-        Product product = (Product) request.getAttribute("product");
-        int action = (int) request.getAttribute("action");
-        HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
-        String url = "/admin/products/create";
-        if(action == 2){
-            url = "/admin/products/edit";
-        }
-        if(errors == null){
-            errors = new HashMap<>();
-        }
-    %>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create Product</title>
+<jsp:include page="../includes/head.jsp"></jsp:include>
+<body id="page-top">
 
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-    <!-- Navbar -->
-    <jsp:include page="../includes/header.jsp"></jsp:include>
-    <!-- /.navbar -->
+  <!-- Sidebar -->
+  <jsp:include page="../includes/sidebar.jsp"></jsp:include>
+  <!-- End of Sidebar -->
 
-    <!-- Main Sidebar Container -->
-    <jsp:include page="../includes/aside.jsp"></jsp:include>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Validation</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Validation</li>
-                        </ol>
-                    </div>
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <jsp:include page="../includes/topbar.jsp"></jsp:include>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Create product</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="<%=url%>" method="post">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="id">Id</label>
+                  <input type="text" class="form-control" id="id" name="id" placeholder="Enter id" value="<%=product.getId()%>" <%=action == 2 ? "readonly":""%>>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-12">
-                        <!-- jquery validation -->
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            <a href="/admin/products/list">Back to list</a>
-                            <form id="quickForm" action="<%=url%>" method="post">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="id">Id</label>
-                                        <input type="text" name="id" class="form-control" id="id" value="<%=product.getId()%>" placeholder="Please enter product's id!">
-                                    </div><div class="form-group">
-                                    <label for="fullName">FullName</label>
-                                    <input type="text" name="fullName" class="form-control" id="fullName" value="<%=product.getFullName()%>" placeholder="Please enter product's fullName!">
-                                </div>
-                                    <div class="form-group">
-                                        <label for="Price">Price</label>
-                                        <input type="text" name="Price" class="form-control" id="Price" value="<%=product.getPrice()%>" placeholder="Please enter product's Price!">
-                                    </div><div class="form-group">
-                                    <label for="Thumbnail">Thumbnail</label>
-                                    <input type="text" name="Thumbnail" class="form-control" id="Thumbnail" value="<%=product.getThumbnail()%>" placeholder="Please enter product's Thumbnail!">
-                                </div>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                    <input type="reset" class="btn btn-default" value="Reset">
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!--/.col (left) -->
-                    <!-- right column -->
-                    <div class="col-md-6">
-
-                    </div>
-                    <!--/.col (right) -->
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"  value="<%=product.getName()%>">
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" value="<%=product.getPrice()%>">
+                </div>
+                <div class="form-group">
+                  <label for="contents">Content</label>
+                  <input type="text" class="form-control" id="contents" name="content" placeholder="Enter content" value="<%=product.getContent()%>">
+                </div>
+                <div class="form-group">
+                  <label for="size">Size</label>
+                  <input type="text" class="form-control" id="size" name="size" placeholder="Enter size" value="<%=product.getSize()%>">
+                </div>
+                <div class="form-group">
+                  <label for="qty">Quantity</label>
+                  <input type="number" class="form-control" id="qty" name="qty" placeholder="Enter quantity" value="<%=product.getQty()%>">
+                </div>
+                <div class="form-group">
+                  <label for="sku">Sku</label>
+                  <input type="number" class="form-control" id="sku" name="sku" placeholder="Enter sku" value="<%=product.getSku()%>">
+                </div>
+                <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" class="form-control" id="category" name="category" placeholder="Enter category" value="<%=product.getCategory()%>">
+              </div>
+                <div class="form-group">
+                  <label for="tag">Tag</label>
+                  <input type="text" class="form-control" id="tag" name="tag" placeholder="Enter tag" value="<%=product.getTag()%>">
+                </div>
+                <!-- /.form group -->
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-default">Reset</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.card -->
+
+        </div>
+        <!--/.col (left) -->
+      </div>
+      <!-- /.container-fluid -->
+
     </div>
-    <!-- /.content-wrapper -->
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
     <jsp:include page="../includes/footer.jsp"></jsp:include>
+    <!-- End of Footer -->
 
-    <!-- Control Sidebar -->
+  </div>
+  <!-- End of Content Wrapper -->
 
-    <!-- /.control-sidebar -->
 </div>
+<!-- End of Page Wrapper -->
+
+<jsp:include page="../includes/script.jsp"></jsp:include>
 
 </body>
+
 </html>
+

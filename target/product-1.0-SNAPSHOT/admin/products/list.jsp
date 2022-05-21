@@ -1,115 +1,116 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.hellot2010aagain.product.entity.Product" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    List<Product> products = (List<Product>) request.getAttribute("listProduct");
+%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%
-        List<Product> listProduct = (List<Product>)request.getAttribute("listProduct");
-    %>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>List Product</title>
+<jsp:include page="../includes/head.jsp"></jsp:include>
+<body id="page-top">
 
-    <!-- Google Font: Source Sans Pro -->
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-    <!-- Navbar -->
-    <jsp:include page="../includes/header.jsp"></jsp:include>
-    <!-- /.navbar -->
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-    <!-- Main Sidebar Container -->
-    <jsp:include page="../includes/aside.jsp"></jsp:include>
-    <!-- Content Wrapper. Contains page content -->
+    <!-- Sidebar -->
+    <jsp:include page="../includes/sidebar.jsp"></jsp:include>
+    <!-- End of Sidebar -->
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <jsp:include page="../includes/topbar.jsp"></jsp:include>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
             <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>DataTables</h1>
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                <a href="/admin/products/create">Create New Product</a>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                     </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">DataTables</li>
-                        </ol>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- /.card -->
-                        <a href="/admin/products/create">Create new Product</a>
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">List Product</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-
-                                    <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>fullName</th>
-                                        <th>Price</th>
-                                        <th>Thumbnail</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <%for (Product st : listProduct) {
-                                    %>
-                                    <tbody>
-
-                                    <th><%=st.getId()%></th>
-                                    <th><%=st.getFullName()%></th>
-                                    <th><%=st.getPrice()%></th>
-                                    <th><%=st.getThumbnail()%></th>
-                                    <th><a href="/admin/products/detail?id=<%=st.getId()%>">Detail</a>&nbsp;&nbsp;
-                                        <a href="/admin/products/edit?id=<%=st.getId()%>">Edit</a>&nbsp;&nbsp;
-                                        <a href="/admin/products/delete?id=<%=st.getId()%>" onclick="return confirm('Are you sure?')">Delete</a></th>
-                                    </tbody>
-                                    <%}%>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>fullName</th>
-                                        <th>Phone</th>
-                                        <th>Thumbnail</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </tfoot>
-
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Content</th>
+                                    <th>Category</th>
+                                    <th>Tag</th>
+                                    <th>Create At</th>
+                                    <th>Update At</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Content</th>
+                                    <th>Category</th>
+                                    <th>Tag</th>
+                                    <th>Create At</th>
+                                    <th>Update At</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <%for (Product pd : products){%>
+                                <tr>
+                                    <th><%=pd.getId()%></th>
+                                    <th><%=pd.getName()%></th>
+                                    <th><%=pd.getPrice()%></th>
+                                    <th><%=pd.getContent()%></th>
+                                    <th><%=pd.getCategory()%></th>
+                                    <th><%=pd.getTag()%></th>
+                                    <th><%=pd.getCreatedAt()%></th>
+                                    <th><%=pd.getUpdatedAt()%></th>
+                                    <th><%=pd.getStatus()%></th>
+                                    <th>
+                                        <a href="/admin/products/detail?id=<%=pd.getId()%>"><i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="/admin/products/edit?id=<%=pd.getId()%>"><i class="fa fa-pencil-alt"></i></a>
+                                        <a href="/admin/products/delete?id=<%=pd.getId()%>" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
+                                    </th>
+                                </tr>
+                                <%}%>
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!-- /.row -->
+
             </div>
             <!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <jsp:include page="../includes/footer.jsp"></jsp:include>
+        <!-- End of Footer -->
+
     </div>
-    <!-- /.content-wrapper -->
-    <jsp:include page="../includes/footer.jsp"></jsp:include>
-    <!-- Control Sidebar -->
+    <!-- End of Content Wrapper -->
 
-    <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
+<!-- End of Page Wrapper -->
 
+<jsp:include page="../includes/script.jsp"></jsp:include>
 
 </body>
+
 </html>

@@ -4,47 +4,49 @@ import java.time.LocalDateTime;
 
 public class Product {
     private String id;
-    private String fullName;
-    private String Price;
-    private String Thumbnail;
+    private String name;
+    private double price;
+    private String content;
+    private String size;
+    private int qty;
+    private int sku;
+    private String category;
+    private String tag;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private int status;
 
-    public Product(String id, String fullName, String price, String thumbnail, LocalDateTime createdAt, LocalDateTime updatedAt, int status) {
+    public Product() {
+    }
+
+    public Product(String id, String name, double price, String content, String size, int qty, int sku, String category, String tag, LocalDateTime createdAt, LocalDateTime updatedAt, int status) {
         this.id = id;
-        this.fullName = fullName;
-        this.Price = price;
-        this.Thumbnail = thumbnail;
+        this.name = name;
+        this.price = price;
+        this.content = content;
+        this.size = size;
+        this.qty = qty;
+        this.sku = sku;
+        this.category = category;
+        this.tag = tag;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
     }
 
-    public Product(String id, String fullName, String price, String thumbnail) {
+    public Product(String id, String name, double price, String content, String size, int qty, int sku, String category, String tag) {
         this.id = id;
-        this.fullName = fullName;
-        this.Price = price;
-        this.Thumbnail = thumbnail;
+        this.name = name;
+        this.price = price;
+        this.content = content;
+        this.size = size;
+        this.qty = qty;
+        this.sku = sku;
+        this.category = category;
+        this.tag = tag;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = 1;
-    }
-
-    public Product() {
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", price=" + Price +
-                ", thumbnail='" + Thumbnail + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", status=" + status +
-                '}';
     }
 
     public String getId() {
@@ -52,31 +54,71 @@ public class Product {
     }
 
     public void setId(String id) {
-        id = id;
+        this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPrice() {
-        return Price;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrice(String price) {
-        Price = price;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public String getThumbnail() {
-        return Thumbnail;
+    public String getContent() {
+        return content;
     }
 
-    public void setThumbnail(String thumbnail) {
-        Thumbnail = thumbnail;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public int getSku() {
+        return sku;
+    }
+
+    public void setSku(int sku) {
+        this.sku = sku;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -1,104 +1,89 @@
-<%@ page import="java.util.List" %>
 <%@ page import="com.hellot2010aagain.product.entity.Product" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Product product = (Product) request.getAttribute("product");
+%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%
-        Product product = (Product)request.getAttribute("product");
-    %>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%=product.getFullName()%> Detail</title>
+<jsp:include page="../includes/head.jsp"></jsp:include>
+<body id="page-top">
 
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-    <!-- Navbar -->
-    <jsp:include page="../includes/header.jsp"></jsp:include>
-    <!-- /.navbar -->
+    <!-- Sidebar -->
+    <jsp:include page="../includes/sidebar.jsp"></jsp:include>
+    <!-- End of Sidebar -->
 
-    <!-- Main Sidebar Container -->
-    <jsp:include page="../includes/aside.jsp"></jsp:include>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>DataTables</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">DataTables</li>
-                        </ol>
-                    </div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <jsp:include page="../includes/topbar.jsp"></jsp:include>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Product Detail</h3>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- /.card -->
-                        <a href="/admin/products/create">Create new Product</a> |
-                        <a href="/admin/products/list">Back to list</a>
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Product Detail</h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                            <h3 class="text-primary"></i><%=product.getName()%></h3>
+                            <p class="text-muted"><%=product.getContent()%></p>
+                            <br>
+                            <div class="text-muted">
+                                <p class="text-sm">Price
+                                    <b class="d-block"><%=product.getPrice()%></b>
+                                </p>
+                                <p class="text-sm">Quantity
+                                    <b class="d-block"><%=product.getQty()%></b>
+                                </p>
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
 
-                                    <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>fullName</th>
-                                        <th>Price</th>
-                                        <th>Thumbnail</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <th><%=product.getId()%></th>
-                                    <th><%=product.getFullName()%></th>
-                                    <th><%=product.getPrice()%></th>
-                                    <th><%=product.getThumbnail()%></th>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>fullName</th>
-                                        <th>Price</th>
-                                        <th>Thumbnail</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
+                            <h5 class="mt-5 text-muted">Other</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <p class="text-secondary">Size: <%=product.getSize()%></p>
+                                </li>
+                                <li>
+                                    <p class="text-secondary">Sku: <%=product.getSku()%></p>
+                                </li>
+                                <li>
+                                    <p class="text-secondary">Category: <%=product.getCategory()%></p>
+                                </li>
+                                <li>
+                                    <p class="text-secondary">Tag: <%=product.getTag()%></p>
+                                </li>
+                            </ul>
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!-- /.row -->
+                <!-- /.card-body -->
             </div>
+            <!-- /.card -->
             <!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <jsp:include page="../includes/footer.jsp"></jsp:include>
-    <!-- Control Sidebar -->
 
-    <!-- /.control-sidebar -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <jsp:include page="../includes/footer.jsp"></jsp:include>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
 </div>
+<!-- End of Page Wrapper -->
+
+<jsp:include page="../includes/script.jsp"></jsp:include>
 
 </body>
+
 </html>
