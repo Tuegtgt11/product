@@ -9,76 +9,112 @@
 <body id="page-top">
 
 <!-- Page Wrapper -->
-<div id="wrapper">
+<div class="wrapper">
+    <!-- Navbar -->
+    <jsp:include page="../includes/navbar.jsp"></jsp:include>
+    <!-- /.navbar -->
 
-    <!-- Sidebar -->
+    <!-- Main Sidebar Container -->
     <jsp:include page="../includes/sidebar.jsp"></jsp:include>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-        <!-- Main Content -->
-        <div id="content">
-
-            <!-- Topbar -->
-            <jsp:include page="../includes/topbar.jsp"></jsp:include>
-            <!-- End of Topbar -->
-
-            <!-- Begin Page Content -->
-            <!-- Default box -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Product Detail</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                            <h3 class="text-primary"></i><%=product.getName()%></h3>
-                            <p class="text-muted"><%=product.getContent()%></p>
-                            <br>
-                            <div class="text-muted">
-                                <p class="text-sm">Price
-                                    <b class="d-block"><%=product.getPrice()%></b>
-                                </p>
-                                <p class="text-sm">Quantity
-                                    <b class="d-block"><%=product.getQty()%></b>
-                                </p>
-                            </div>
-
-                            <h5 class="mt-5 text-muted">Other</h5>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <p class="text-secondary">Size: <%=product.getSize()%></p>
-                                </li>
-                                <li>
-                                    <p class="text-secondary">Sku: <%=product.getSku()%></p>
-                                </li>
-                                <li>
-                                    <p class="text-secondary">Category: <%=product.getCategory()%></p>
-                                </li>
-                                <li>
-                                    <p class="text-secondary">Tag: <%=product.getTag()%></p>
-                                </li>
-                            </ul>
-                        </div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>DataTables</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">DataTables</li>
+                        </ol>
                     </div>
                 </div>
-                <!-- /.card-body -->
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- /.card -->
+                        <a href="/admin/products/create">Create new product</a> |
+                        <a href="/admin/products/list">Back to list</a>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Product Detail</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Image</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Color</th>
+                                        <th>Content</th>
+                                        <th>Category</th>
+                                        <th>Create At</th>
+                                        <th>Update At</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th><%=product.getId()%></th>
+                                        <th><%=product.getName()%></th>
+                                        <th><%=product.getImage()%></th>
+                                        <th><%=product.getPrice()%></th>
+                                        <th><%=product.getQty()%></th>
+                                        <th><%=product.getColor_id()%></th>
+                                        <th><%=product.getContent()%></th>
+                                        <th><%=product.getCategory_id()%></th>
+                                        <th><%=product.getCreatedAt()%></th>
+                                        <th><%=product.getUpdatedAt()%></th>
+                                        <th><%=product.getStatus()%></th>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Image</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Color</th>
+                                        <th>Content</th>
+                                        <th>Category</th>
+                                        <th>Create At</th>
+                                        <th>Update At</th>
+                                        <th>Action</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
             </div>
-            <!-- /.card -->
             <!-- /.container-fluid -->
-
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <jsp:include page="../includes/footer.jsp"></jsp:include>
-        <!-- End of Footer -->
-
+        </section>
+        <!-- /.content -->
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- /.content-wrapper -->
+    <jsp:include page="../includes/footer.jsp"></jsp:include>
+    <!-- Control Sidebar -->
 
+    <!-- /.control-sidebar -->
 </div>
 <!-- End of Page Wrapper -->
 

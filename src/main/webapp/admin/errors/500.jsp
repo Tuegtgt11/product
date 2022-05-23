@@ -18,7 +18,7 @@
     <div id="content">
 
       <!-- Topbar -->
-      <jsp:include page="../includes/topbar.jsp"></jsp:include>
+      <jsp:include page="../includes/navbar.jsp"></jsp:include>
       <!-- End of Topbar -->
 
       <!-- Begin Page Content -->

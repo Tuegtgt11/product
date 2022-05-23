@@ -2,7 +2,6 @@ package com.hellot2010aagain.product.model;
 
 import com.hellot2010aagain.product.entity.Product;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface ProductModel {

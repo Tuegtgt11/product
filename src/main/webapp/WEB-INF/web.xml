@@ -4,8 +4,17 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>com.hellot2010aagain.product.controller.user.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>HomeAdmin</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.HomeServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.HomeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeAdmin</servlet-name>
@@ -13,7 +22,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>ListProductServlet</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.ListProductServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.product.ListProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListProductServlet</servlet-name>
@@ -21,7 +30,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>CreateProductServlet</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.CreateProductServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.product.CreateProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CreateProductServlet</servlet-name>
@@ -29,7 +38,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>EditProductServlet</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.EditProductServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.product.EditProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EditProductServlet</servlet-name>
@@ -37,7 +46,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>DetailProductServlet</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.DetailProductServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.product.DetailProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DetailProductServlet</servlet-name>
@@ -45,7 +54,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteProductServlet</servlet-name>
-        <servlet-class>com.hellot2010aagain.product.controller_admin.DeleteProductServlet</servlet-class>
+        <servlet-class>com.hellot2010aagain.product.controller.admin.product.DeleteProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteProductServlet</servlet-name>
