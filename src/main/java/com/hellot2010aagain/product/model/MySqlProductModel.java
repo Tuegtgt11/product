@@ -1,6 +1,7 @@
 package com.hellot2010aagain.product.model;
 
 import com.hellot2010aagain.product.entity.Product;
+import com.hellot2010aagain.product.entity.myenum.CategoryStatus;
 import com.hellot2010aagain.product.entity.myenum.ProductStatus;
 import com.hellot2010aagain.product.utill.ConnectionHelper;
 
@@ -13,30 +14,30 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlProductModel implements ProductModel{
+public class MySqlProductModel implements ProductModel {
+
     @Override
-    public Product save(Product product) {
+    public Product save(Product obj) {
         try {
             Connection connection = ConnectionHelper.getConnection();
-            String sqlQuery = "insert into products "+
-                    "(id,name,image,price,qty,color_id,content,category_id,createdAt,updatedAt,status)"+
-                    "value "+"(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlQuery = "insert into products " +
+                    "(id, categoryId, name, description, detail, thumbnail, price, createdAt, updatedAt, status) " +
+                    "values " +
+                    "(?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,product.getId());
-            preparedStatement.setString(2,product.getName());
-            preparedStatement.setString(3,product.getImage());
-            preparedStatement.setDouble(4,product.getPrice());
-            preparedStatement.setInt(5,product.getQty());
-            preparedStatement.setInt(6,product.getColor_id());
-            preparedStatement.setString(7,product.getContent());
-            preparedStatement.setInt(8,product.getCategory_id());
-            preparedStatement.setString(9,product.getCreatedAt().toString());
-            preparedStatement.setString(10,product.getUpdatedAt().toString());
-            preparedStatement.setInt(11,product.getStatus().getValue());
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, obj.getCategoryId());
+            preparedStatement.setString(2, obj.getName());
+            preparedStatement.setString(3, obj.getDescription());
+            preparedStatement.setString(4, obj.getDetail());
+            preparedStatement.setString(5, obj.getThumbnail());
+            preparedStatement.setDouble(6, obj.getPrice());
+            preparedStatement.setString(7, obj.getCreatedAt().toString());
+            preparedStatement.setString(8, obj.getUpdatedAt().toString());
+            preparedStatement.setInt(9, obj.getStatus().getValue());
             preparedStatement.execute();
-            return product;
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return obj;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -49,109 +50,121 @@ public class MySqlProductModel implements ProductModel{
             Connection connection = ConnectionHelper.getConnection();
             String sqlQuery = "select * from products where status = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,1);
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, CategoryStatus.ACTIVE.getValue());
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String id = resultSet.getString("id");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int categoryId = resultSet.getInt("categoryId");
                 String name = resultSet.getString("name");
-                String image = resultSet.getString("image");
+                String description = resultSet.getString("description");
+                String detail = resultSet.getString("detail");
+                String thumbnail = resultSet.getString("thumbnail");
                 double price = resultSet.getDouble("price");
-                int qty = resultSet.getInt("qty");
-                int color_id = Integer.parseInt(resultSet.getString("color_id"));
-                String content = resultSet.getString("content");
-                int category_id = Integer.parseInt(resultSet.getString("category_id"));
-                LocalDateTime createdAt = LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
-                LocalDateTime updatedAt = LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
-                int intstatus = resultSet.getInt("status");
-                Product product = new Product(id,name,image,price,qty,color_id,content,category_id);
-                product.setCreatedAt(createdAt);
-                product.setUpdatedAt(updatedAt);
-                product.setStatus(ProductStatus.of(intstatus));
-                list.add(product);
+                LocalDateTime createdAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
+                LocalDateTime updatedAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
+                int intStatus = resultSet.getInt("status");
+                Product obj = new Product();
+                obj.setId(id);
+                obj.setCategoryId(categoryId);
+                obj.setName(name);
+                obj.setDescription(description);
+                obj.setThumbnail(thumbnail);
+                obj.setDetail(detail);
+                obj.setPrice(price);
+                obj.setCreatedAt(createdAt);
+                obj.setUpdatedAt(updatedAt);
+                obj.setStatus(ProductStatus.of(intStatus));
+                list.add(obj);
             }
-            preparedStatement.execute();
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
 
     @Override
-    public Product findById(String id) {
-        Product product = null;
+    public Product findById(int id) {
+        Product obj = null;
         try {
             Connection connection = ConnectionHelper.getConnection();
             String sqlQuery = "select * from products where status = ? and id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,1);
-            preparedStatement.setString(2,id);
+            preparedStatement.setInt(1, CategoryStatus.ACTIVE.getValue());
+            preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            if (resultSet.next()) {
+                int categoryId = resultSet.getInt("categoryId");
                 String name = resultSet.getString("name");
-                String image = resultSet.getString("image");
+                String description = resultSet.getString("description");
+                String detail = resultSet.getString("detail");
+                String thumbnail = resultSet.getString("thumbnail");
                 double price = resultSet.getDouble("price");
-                int qty = resultSet.getInt("qty");
-                String size = resultSet.getString("color_id");
-                String content = resultSet.getString("content");
-                String category = resultSet.getString("category_id");
-                LocalDateTime createdAt = LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
-                LocalDateTime updatedAt = LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
-                int intstatus = resultSet.getInt("status");
-                product.setCreatedAt(createdAt);
-                product.setUpdatedAt(updatedAt);
-                product.setStatus(ProductStatus.of(intstatus));
+                LocalDateTime createdAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
+                LocalDateTime updatedAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
+                int intStatus = resultSet.getInt("status");
+                obj = new Product();
+                obj.setId(id);
+                obj.setCategoryId(categoryId);
+                obj.setName(name);
+                obj.setDescription(description);
+                obj.setThumbnail(thumbnail);
+                obj.setDetail(detail);
+                obj.setPrice(price);
+                obj.setCreatedAt(createdAt);
+                obj.setUpdatedAt(updatedAt);
+                obj.setStatus(ProductStatus.of(intStatus));
             }
-            preparedStatement.execute();
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return product;
+        return obj;
     }
 
     @Override
-    public Product update(String id, Product product) {
+    public Product update(int id, Product updateObj) {
         try {
             Connection connection = ConnectionHelper.getConnection();
-            String sqlQuery = "update products "+
-                    "set id = ?,name = ?,image = ?,price = ?,qty = ?,color_id = ?,content = ?,category_id = ?, createdAt = ?,updatedAt = ? ,status = ? where  id =?";
+            String sqlQuery = "update products " +
+                    "set categoryId = ?, name = ?, description = ?, detail = ?, thumbnail = ?, price = ?, createdAt = ?, updatedAt = ?, status = ? where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,product.getId());
-            preparedStatement.setString(2,product.getName());
-            preparedStatement.setString(3,product.getImage());
-            preparedStatement.setDouble(4,product.getPrice());
-            preparedStatement.setInt(5,product.getQty());
-            preparedStatement.setInt(6,product.getColor_id());
-            preparedStatement.setString(7,product.getContent());
-            preparedStatement.setInt(8,product.getCategory_id());
-            preparedStatement.setString(9,product.getCreatedAt().toString());
-            preparedStatement.setString(10,product.getUpdatedAt().toString());
-            preparedStatement.setInt(11,product.getStatus().getValue());
-            preparedStatement.setString(12,id);
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, updateObj.getCategoryId());
+            preparedStatement.setString(2, updateObj.getName());
+            preparedStatement.setString(3, updateObj.getDescription());
+            preparedStatement.setString(4, updateObj.getDetail());
+            preparedStatement.setString(5, updateObj.getThumbnail());
+            preparedStatement.setDouble(6, updateObj.getPrice());
+            preparedStatement.setString(7, updateObj.getCreatedAt().toString());
+            preparedStatement.setString(8, updateObj.getUpdatedAt().toString());
+            preparedStatement.setInt(9, updateObj.getStatus().getValue());
+            preparedStatement.setInt(10, id);
             preparedStatement.execute();
-            return product;
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return updateObj;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(int id) {
         try {
             Connection connection = ConnectionHelper.getConnection();
             String sqlQuery = "update products " +
                     "set status = ? where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1, ProductStatus.DELETE.getValue());
-            preparedStatement.setString(2,id);
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, ProductStatus.DELETED.getValue());
+            preparedStatement.setInt(2, id);
             preparedStatement.execute();
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return true;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

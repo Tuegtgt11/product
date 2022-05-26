@@ -6,6 +6,7 @@ import com.hellot2010aagain.product.entity.myenum.CategoryStatus;
 import java.time.LocalDateTime;
 
 public class Category extends BaseEntity {
+
     private int id;
     private String name;
     private CategoryStatus status;

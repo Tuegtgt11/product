@@ -5,13 +5,13 @@ import com.hellot2010aagain.product.entity.Product;
 import java.util.List;
 
 public interface ProductModel {
+    Product save(Product obj); // lưu thông tin.
+
     List<Product> findAll();
 
-    Product findById(String id);
+    Product findById(int id);
 
-    Product update(String id, Product updateProduct);
+    Product update(int id, Product updateObj);
 
-    boolean delete(String id);
-
-    Product save(Product product);
+    boolean delete(int id);
 }

@@ -1,15 +1,27 @@
-<%@ page import="com.hellot2010aagain.product.entity.Product" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="com.hellot2010aagain.product.entity.Product" %>
+<%@ page import="com.hellot2010aagain.product.entity.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.hellot2010aagain.product.entity.myenum.ProductStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  Product product = (Product) request.getAttribute("product");
+  Product obj = (Product) request.getAttribute("obj");
+  List<Category> categories = (List<Category>) request.getAttribute("categories");
+  if(categories == null){
+    categories = new ArrayList<>();
+  }
   int action = (int) request.getAttribute("action");
   HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
   String url = "/admin/products/create";
   if(action == 2){
     url = "/admin/products/edit";
   }
+  if(errors == null){
+    errors = new HashMap<>();
+  }
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <jsp:include page="../includes/head.jsp"></jsp:include>
@@ -17,11 +29,9 @@
 <div class="wrapper">
   <!-- Navbar -->
   <jsp:include page="../includes/navbar.jsp"></jsp:include>
-  <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <jsp:include page="../includes/sidebar.jsp"></jsp:include>
-  <!-- /.Main Sidebar Container -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -30,12 +40,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>General Form</h1>
+            <h1>Product management</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/admin/home">Home</a></li>
-              <li class="breadcrumb-item active">Create Product</li>
+              <li class="breadcrumb-item"><a href="/admin/products/list">Product Management</a></li>
+              <li class="breadcrumb-item active">Create new</li>
             </ol>
           </div>
         </div>
@@ -45,122 +55,189 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <%
+          if(errors != null && errors.size() > 0){
+        %>
         <div class="row">
-          <!-- left column -->
-          <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card card-primary">
+          <div class="col-12">
+            <div class="callout callout-danger">
+              <h5>Please fix error below</h5>
+              <ul>
+                <%
+                  for (String msg: errors.values()){
+                %>
+                <li class="text-danger"><%=msg%></li>
+                <%
+                  }
+                %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <%}%>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Create Product</h3>
+                <h3 class="card-title">Please enter information below</h3>
               </div>
               <!-- /.card-header -->
-              <!-- form start -->
-              <form action="<%=url%>" method="post">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="id">Id</label>
-                    <input type="text" class="form-control" id="id" name="id" placeholder="Enter id" value="<%=product.getId()%>" <%=action == 2 ? "readonly":""%>>
-                    <%if(errors.containsKey("id")){%>
-                    <span class="text-danger">* <%=errors.get("id")%></span>
-                    <%}%>
-                  </div>
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"  value="<%=product.getName()%>">
-                    <%if(errors.containsKey("name")){%>
-                    <span class="text-danger">* <%=errors.get("name")%></span>
-                    <%}%>
-                  </div>
-                  <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" value="<%=product.getPrice()%>">
-                    <%if(errors.containsKey("price")){%>
-                    <span class="text-danger">* <%=errors.get("price")%></span>
-                    <%}%>
-                  </div>
-                  <div class="form-group">
-                    <label for="contents">Content</label>
-                    <input type="text" class="form-control" id="contents" name="content" placeholder="Enter content" value="<%=product.getContent()%>">
-                    <%if(errors.containsKey("content")){%>
-                    <span class="text-danger">* <%=errors.get("content")%></span>
-                    <%}%>
-                  </div>
-                  <%-- <div class="form-group">
-                    <label for="size">Size</label>
-                    <input type="text" class="form-control" id="size" name="size" placeholder="Enter size" value="<%=product.getSize()%>">
-                    <%if(errors.containsKey("size")){%>
-                    <span class="text-danger">* <%=errors.get("size")%></span>
-                    <%}%>
-                  </div>--%>
-                  <div class="form-group">
-                    <label for="qty">Quantity</label>
-                    <input type="number" class="form-control" id="qty" name="qty" placeholder="Enter quantity" value="<%=product.getQty()%>">
-                    <%if(errors.containsKey("qty")){%>
-                    <span class="text-danger">* <%=errors.get("qty")%></span>
-                    <%}%>
-                  </div>
-                  <%--<div class="form-group">
-                    <label for="sku">Sku</label>
-                    <input type="number" class="form-control" id="sku" name="sku" placeholder="Enter sku" value="<%=product.getSku()%>">
-                    <%if(errors.containsKey("sku")){%>
-                    <span class="text-danger">* <%=errors.get("sku")%></span>
-                    <%}%>
-                  </div>
-                  <div class="form-group">
-                  <label for="category">Category</label>
-                  <input type="text" class="form-control" id="category" name="category" placeholder="Enter category" value="<%=product.getCategory()%>">
-                    <%if(errors.containsKey("category")){%>
-                    <span class="text-danger">* <%=errors.get("category")%></span>
-                    <%}%>
-                </div>
-                  <div class="form-group">
-                    <label for="tag">Tag</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Enter tag" value="<%=product.getTag()%>">
-                    <%if(errors.containsKey("tag")){%>
-                    <span class="text-danger">* <%=errors.get("tag")%></span>
-                    <%}%>
-                  </div>--%>
-                  <!-- /.form group -->
-                  <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
+              <div class="card-body">
+                <form action="<%=url%>" method="post" name="product-form">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" value="<%=obj.getName()%>" class="form-control" placeholder="Please enter name">
+                        <%if(errors.containsKey("name")){%>
+                        <span class="text-danger">* <%=errors.get("name")%></span>
+                        <%}%>
                       </div>
                     </div>
                   </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <!-- select -->
+                      <div class="form-group">
+                        <label>Vui lòng chọn danh mục</label>
+                        <select name="categoryId" class="form-control">
+                          <option value="0">Tất cả</option>
+                          <%
+                            for (int i = 0; i < categories.size(); i++) {
+                          %>
+                          <option value="<%=categories.get(i).getId()%>"><%=categories.get(i).getName()%></option>
+                          <%
+                            }
+                          %>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <!-- /.card-body -->
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" name="price" value="<%=obj.getPrice()%>" class="form-control" placeholder="Please enter price">
+                        <%if(errors.containsKey("price")){%>
+                        <span class="text-danger">* <%=errors.get("price")%></span>
+                        <%}%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" name="description" value="<%=obj.getDescription()%>" class="form-control" placeholder="Please enter description">
+                        <%if(errors.containsKey("description")){%>
+                        <span class="text-danger">* <%=errors.get("description")%></span>
+                        <%}%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Thumbnail</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="text" name="thumbnail" value="<%=obj.getThumbnail()%>" class="form-control" placeholder="Please choose image">
+                          </div>
+                          <div class="input-group-append" id="upload_widget">
+                            <span class="input-group-text">Upload</span>
+                          </div>
+                        </div>
+                        <img id="preview-image" style="display: none" src="" alt="" class="img-bordered mt-2" width="200px">
+                        <%if(errors.containsKey("thumbnail")){%>
+                        <span class="text-danger">* <%=errors.get("thumbnail")%></span>
+                        <%}%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <div class="form-group">
+                        <label>Detail</label>
+                        <textarea id="summernote" name="detail"><%=obj.getDetail()%></textarea>
+                        <%if(errors.containsKey("detail")){%>
+                        <span class="text-danger">* <%=errors.get("detail")%></span>
+                        <%}%>
+                      </div>
+                    </div>
+                  </div>
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" class="form-control">
+                          <%
+                            for (int i = 0; i < ProductStatus.values().length; i++) {
+                          %>
+                          <option <%=obj.getStatus() == ProductStatus.values()[i] ? "selected": ""%> value="<%=ProductStatus.values()[i].getValue()%>"><%=ProductStatus.values()[i].name()%></option>
+                          <%
+                            }
+                          %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <button class="btn btn-primary">Save</button>
+                        <input type="reset" class="btn btn-default" value="Reset">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-body -->
             </div>
-
           </div>
+          <!-- /.col -->
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <!-- /.content-wrapper -->
+
   <jsp:include page="../includes/footer.jsp"></jsp:include>
   <!-- Control Sidebar -->
-
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 <jsp:include page="../includes/script.jsp"></jsp:include>
+<script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function (){
+    $('#summernote').summernote();
+    var myWidget = cloudinary.createUploadWidget({
+              cloudName: 'xuanhung2401',
+              uploadPreset: 'e0zfadzs'}, (error, result) => {
+              if (!error && result && result.event === "success") {
+                console.log('Done! Here is the image info: ', result.info.secure_url);
+                document.forms['product-form']['thumbnail'].value = result.info.secure_url;
+                document.getElementById('preview-image').src = result.info.secure_url;
+                document.getElementById('preview-image').style.display = "block";
+              }
+            }
+    )
+
+    document.getElementById("upload_widget").addEventListener("click", function(){
+      myWidget.open();
+    }, false);
+  })
+</script>
 </body>
 </html>

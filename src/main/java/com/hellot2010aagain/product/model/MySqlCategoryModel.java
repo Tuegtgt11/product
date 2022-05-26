@@ -13,23 +13,25 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlCategoryModel implements CategoryModel{
+public class MySqlCategoryModel implements CategoryModel {
+
     @Override
-    public Category save(Category category) {
+    public Category save(Category obj) {
         try {
             Connection connection = ConnectionHelper.getConnection();
-            String sqlQuery = "insert into categories "+
-                    "(name,createdAt,updatedAt,status)"+
-                    " value "+"(?,?,?,?)";
+            String sqlQuery = "insert into categories " +
+                    "(name, createdAt, updatedAt, status) " +
+                    "values " +
+                    "(?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,category.getName());
-            preparedStatement.setString(2,category.getCreatedAt().toString());
-            preparedStatement.setString(3,category.getUpdatedAt().toString());
-            preparedStatement.setInt(4,category.getStatus().getValue());
-            System.out.println("Connection success!");
+            preparedStatement.setString(1, obj.getName());
+            preparedStatement.setString(2, obj.getCreatedAt().toString());
+            preparedStatement.setString(3, obj.getUpdatedAt().toString());
+            preparedStatement.setInt(4, obj.getStatus().getValue());
             preparedStatement.execute();
-            return category;
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return obj;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -42,24 +44,24 @@ public class MySqlCategoryModel implements CategoryModel{
             Connection connection = ConnectionHelper.getConnection();
             String sqlQuery = "select * from categories where status = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,1);
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, CategoryStatus.ACTIVE.getValue());
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                Integer id = Integer.valueOf(resultSet.getString("id"));
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                LocalDateTime createdAt = LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
-                LocalDateTime updatedAt = LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
-                int intstatus = resultSet.getInt("status");
-                Category category = new Category(id,name);
-                category.setCreatedAt(createdAt);
-                category.setUpdatedAt(updatedAt);
-                category.setStatus(CategoryStatus.of(intstatus));
-                list.add(category);
+                LocalDateTime createdAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
+                LocalDateTime updatedAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
+                int intStatus = resultSet.getInt("status");
+                Category obj = new Category(id, name);
+                obj.setCreatedAt(createdAt);
+                obj.setUpdatedAt(updatedAt);
+                obj.setStatus(CategoryStatus.of(intStatus));
+                list.add(obj);
             }
-            preparedStatement.execute();
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
@@ -67,49 +69,49 @@ public class MySqlCategoryModel implements CategoryModel{
 
     @Override
     public Category findById(int id) {
-        Category category = null;
+        Category obj = null;
         try {
             Connection connection = ConnectionHelper.getConnection();
             String sqlQuery = "select * from categories where status = ? and id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,1);
-            preparedStatement.setInt(2,id);
+            preparedStatement.setInt(1, CategoryStatus.ACTIVE.getValue());
+            preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            if (resultSet.next()) {
                 String name = resultSet.getString("name");
-                String image = resultSet.getString("image");
-                LocalDateTime createdAt = LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
-                LocalDateTime updatedAt = LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
-                int intstatus = resultSet.getInt("status");
-                category.setCreatedAt(createdAt);
-                category.setUpdatedAt(updatedAt);
-                category.setStatus(CategoryStatus.of(intstatus));
+                LocalDateTime createdAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("createdAt").toInstant(), ZoneId.systemDefault());
+                LocalDateTime updatedAt =
+                        LocalDateTime.ofInstant(resultSet.getTimestamp("updatedAt").toInstant(), ZoneId.systemDefault());
+                int intStatus = resultSet.getInt("status");
+                obj = new Category(id, name);
+                obj.setCreatedAt(createdAt);
+                obj.setUpdatedAt(updatedAt);
+                obj.setStatus(CategoryStatus.of(intStatus));
             }
-            preparedStatement.execute();
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return category;
+        return obj;
     }
 
     @Override
-    public Category update(int id, Category category) {
+    public Category update(int id, Category updateObj) {
         try {
             Connection connection = ConnectionHelper.getConnection();
-            String sqlQuery = "update categories "+
-                    "set name = ?, createdAt = ?,updatedAt = ? ,status = ? where  id =?";
+            String sqlQuery = "update categories " +
+                    "set name = ?, createdAt = ?, updatedAt = ?, status = ? where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1,category.getName());
-            preparedStatement.setString(2,category.getCreatedAt().toString());
-            preparedStatement.setString(3,category.getUpdatedAt().toString());
-            preparedStatement.setInt(4,category.getStatus().getValue());
-            preparedStatement.setInt(5,id);
-            System.out.println("Connection success!");
+            preparedStatement.setString(1, updateObj.getName());
+            preparedStatement.setString(2, updateObj.getCreatedAt().toString());
+            preparedStatement.setString(3, updateObj.getUpdatedAt().toString());
+            preparedStatement.setInt(4, updateObj.getStatus().getValue());
+            preparedStatement.setInt(5, id);
             preparedStatement.execute();
-            return category;
-
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return updateObj;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -122,11 +124,12 @@ public class MySqlCategoryModel implements CategoryModel{
             String sqlQuery = "update categories " +
                     "set status = ? where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1,CategoryStatus.DELETE.getValue());
-            preparedStatement.setInt(2,id);
-            System.out.println("Connection success!");
+            preparedStatement.setInt(1, CategoryStatus.DELETED.getValue());
+            preparedStatement.setInt(2, id);
             preparedStatement.execute();
-        }catch (SQLException e){
+            System.out.println("Action success!");
+            return true;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

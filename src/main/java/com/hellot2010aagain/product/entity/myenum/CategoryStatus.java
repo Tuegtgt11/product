@@ -1,9 +1,10 @@
 package com.hellot2010aagain.product.entity.myenum;
 
 public enum CategoryStatus {
-    ACTIVE(1),DEACTIVE(0),DELETE(-1),UNDEFINE(-2);
+    ACTIVE(1), DEACTIVE(0), DELETED(-1), UNDEFINE(-2);
 
     private int value;
+
     CategoryStatus(int value) {
         this.value = value;
     }
@@ -12,13 +13,13 @@ public enum CategoryStatus {
         return value;
     }
 
-    public static CategoryStatus of(int value){
+    public static CategoryStatus of(int value) {
         for (CategoryStatus status :
-                CategoryStatus.values()){
-            if (status.getValue() == value){
+                CategoryStatus.values()) {
+            if (status.getValue() == value) {
                 return status;
             }
         }
-        return UNDEFINE;
+        return CategoryStatus.UNDEFINE;
     }
 }

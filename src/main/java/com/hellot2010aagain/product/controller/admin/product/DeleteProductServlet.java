@@ -18,7 +18,7 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        int id = Integer.parseInt(req.getParameter("id"));
         req.setAttribute("title", "Delete Product");
 
         Product product = productModel.findById(id);

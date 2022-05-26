@@ -4,43 +4,86 @@ import com.hellot2010aagain.product.entity.base.BaseEntity;
 import com.hellot2010aagain.product.entity.myenum.ProductStatus;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class Product extends BaseEntity {
-    private String id;
-    private String name;
-    private String image;
-    private double price;
-    private int qty;
-    private int color_id;
-    private String content;
-    private int category_id;
+
+    private int id; // String id UUID
+    private int categoryId;
+    private String name; // slug
+    private String description;
+    private String detail;
+    private String thumbnail;
+    private double price; // BigDecimal
     private ProductStatus status;
 
-    public Product() {
-        this.id = "";
-        this.name = "";
-        this.image = "";
-        this.content = "";
+    private HashMap<String, String> errors = new HashMap<>();
+
+    public boolean isValid() {
+        checkValidate();
+        return errors.size() == 0;
     }
 
-    public Product(String id, String name, String image, double price, int qty, int color_id, String content, int category_id) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.price = price;
-        this.qty = qty;
-        this.color_id = color_id;
-        this.content = content;
-        this.category_id = category_id;
+    private void checkValidate() {
+        // validate dữ liệu theo kiểu cùi bắp.
+        if (name == null || name.length() == 0) {
+            errors.put("name", "Please enter name");
+        }
+        if (price == 0) {
+            errors.put("price", "Please enter price");
+        }
+        if (thumbnail == null || thumbnail.length() == 0) {
+            errors.put("thumbnail", "Please choose thumbnail!");
+        }
+    }
+
+    public HashMap<String, String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(HashMap<String, String> errors) {
+        this.errors = errors;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", detail='" + detail + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", price=" + price +
+                ", status=" + status +
+                '}';
+    }
+
+    public Product() {
+        this.name = "";
+        this.description = "";
+        this.detail = "";
+        this.price = 0;
+        this.thumbnail = "";
+        this.setCreatedAt(LocalDateTime.now());
+        this.setUpdatedAt(LocalDateTime.now());
         this.status = ProductStatus.ACTIVE;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -51,12 +94,28 @@ public class Product extends BaseEntity {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public double getPrice() {
@@ -65,38 +124,6 @@ public class Product extends BaseEntity {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public int getColor_id() {
-        return color_id;
-    }
-
-    public void setColor_id(int color_id) {
-        this.color_id = color_id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
     }
 
     public ProductStatus getStatus() {

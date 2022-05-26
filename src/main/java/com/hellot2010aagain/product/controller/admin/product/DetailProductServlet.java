@@ -20,7 +20,7 @@ public class DetailProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // lấy tham số id
-        String id = req.getParameter("id");
+        int id = Integer.parseInt(req.getParameter("id"));
         req.setAttribute("title", "Detail Product");
         // kiểm tra trong database xem có tồn tại không.
         Product product = productModel.findById(id);
